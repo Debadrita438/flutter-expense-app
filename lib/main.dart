@@ -23,6 +23,11 @@ class ExpenseApp extends StatelessWidget {
     Transaction(
         id: 't2', title: 'My pc', amount: 1600.00, date: DateTime.now()),
   ];
+  // late String titleInput;
+  // late String amountInput;
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
+
   ExpenseApp({Key? key}) : super(key: key);
 
   @override
@@ -32,7 +37,6 @@ class ExpenseApp extends StatelessWidget {
         title: Text('Expense App'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
@@ -41,6 +45,35 @@ class ExpenseApp extends StatelessWidget {
               child: Text('CHART!'),
               elevation: 5,
               color: Colors.blue,
+            ),
+          ),
+          Card(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Title'),
+                    // onChanged: (value) => titleInput = value,
+                    controller: titleController,
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Amount'),
+                    controller: amountController,
+                    // onChanged: (value) => amountInput = value,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // print(titleInput);
+                      // print(amountInput);
+                      print(titleController.text);
+                    },
+                    child: Text('Add Transaction'),
+                    style: TextButton.styleFrom(primary: Colors.purple),
+                  )
+                ],
+              ),
             ),
           ),
           Column(
