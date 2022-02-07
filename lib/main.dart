@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import './widgets/new_transaction.dart';
 import './widgets/transaction_list.dart';
 import './models/transaction.dart';
 import './widgets/chart.dart';
+
+// void main() {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   SystemChrome.setPreferredOrientations(
+//     [
+//       DeviceOrientation.portraitUp,
+//       DeviceOrientation.portraitDown,
+//     ],
+//   ).then((_) => runApp(const MyApp()));
+// }
 
 void main() => runApp(const MyApp());
 
@@ -62,6 +73,8 @@ class _ExpenseAppState extends State<ExpenseApp> {
     // ),
   ];
 
+  bool _showChart = false;
+
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(
@@ -73,7 +86,10 @@ class _ExpenseAppState extends State<ExpenseApp> {
   }
 
   void _addNewTransaction(
-      String txTitle, double txAmount, DateTime chosenDate) {
+    String txTitle,
+    double txAmount,
+    DateTime chosenDate,
+  ) {
     final newTx = Transaction(
       id: DateTime.now().toString(),
       title: txTitle,
@@ -121,25 +137,41 @@ class _ExpenseAppState extends State<ExpenseApp> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.3,
-              child: Chart(
-                recentTransactions: _recentTransactions,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Show Chart'),
+                Switch(
+                  value: _showChart,
+                  onChanged: (val) {
+                    setState(() {
+                      _showChart = val;
+                    });
+                  },
+                  activeColor: Theme.of(context).colorScheme.secondary,
+                )
+              ],
             ),
-            SizedBox(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.7,
-              child: TransactionList(
-                userTransactions: _userTransactions,
-                deleteTransaction: _deleteTransaction,
-              ),
-            )
+            _showChart
+                ? SizedBox(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.3,
+                    child: Chart(
+                      recentTransactions: _recentTransactions,
+                    ),
+                  )
+                : SizedBox(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.7,
+                    child: TransactionList(
+                      userTransactions: _userTransactions,
+                      deleteTransaction: _deleteTransaction,
+                    ),
+                  )
           ],
         ),
       ),
