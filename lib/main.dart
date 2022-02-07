@@ -95,6 +95,12 @@ class _ExpenseAppState extends State<ExpenseApp> {
     );
   }
 
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,7 +122,10 @@ class _ExpenseAppState extends State<ExpenseApp> {
             Chart(
               recentTransactions: _recentTransactions,
             ),
-            TransactionList(userTransactions: _userTransactions)
+            TransactionList(
+              userTransactions: _userTransactions,
+              deleteTransaction: _deleteTransaction,
+            )
           ],
         ),
       ),
