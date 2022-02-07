@@ -16,62 +16,59 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 550,
-      child: userTransactions.length > 0
-          ? ListView.builder(
-              itemBuilder: (ctx, index) {
-                return Card(
-                  margin: EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 5,
-                  ),
-                  elevation: 5,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FittedBox(
-                          child: Text('₹${userTransactions[index].amount}'),
-                        ),
+    return userTransactions.isNotEmpty
+        ? ListView.builder(
+            itemBuilder: (ctx, index) {
+              return Card(
+                margin: EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 5,
+                ),
+                elevation: 5,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 30,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FittedBox(
+                        child: Text('₹${userTransactions[index].amount}'),
                       ),
-                      backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
-                    title: Text(
-                      userTransactions[index].title,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    subtitle: Text(
-                      DateFormat.yMMMd().format(userTransactions[index].date),
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      color: Theme.of(context).errorColor,
-                      onPressed: () =>
-                          deleteTransaction(userTransactions[index].id),
-                    ),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
-                );
-              },
-              itemCount: userTransactions.length,
-            )
-          : Column(
-              children: [
-                Text(
-                  'No Transaction Found!',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                Container(
-                  height: 200,
-                  child: Image.asset(
-                    'assets/images/waiting.png',
-                    fit: BoxFit.cover,
+                  title: Text(
+                    userTransactions[index].title,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
-                  padding: const EdgeInsets.only(top: 20),
+                  subtitle: Text(
+                    DateFormat.yMMMd().format(userTransactions[index].date),
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    color: Theme.of(context).errorColor,
+                    onPressed: () =>
+                        deleteTransaction(userTransactions[index].id),
+                  ),
                 ),
-              ],
-            ),
-    );
+              );
+            },
+            itemCount: userTransactions.length,
+          )
+        : Column(
+            children: [
+              Text(
+                'No Transaction Found!',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Container(
+                height: 200,
+                child: Image.asset(
+                  'assets/images/waiting.png',
+                  fit: BoxFit.cover,
+                ),
+                padding: const EdgeInsets.only(top: 20),
+              ),
+            ],
+          );
   }
 }
