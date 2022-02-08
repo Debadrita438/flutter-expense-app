@@ -54,21 +54,23 @@ class TransactionList extends StatelessWidget {
             },
             itemCount: userTransactions.length,
           )
-        : Column(
-            children: [
-              Text(
-                'No Transaction Found!',
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              Container(
-                height: 200,
-                child: Image.asset(
-                  'assets/images/waiting.png',
-                  fit: BoxFit.cover,
+        : LayoutBuilder(builder: (ctx, constraints) {
+            return Column(
+              children: [
+                Text(
+                  'No Transaction Found!',
+                  style: Theme.of(context).textTheme.headline6,
                 ),
-                padding: const EdgeInsets.only(top: 20),
-              ),
-            ],
-          );
+                Container(
+                  height: constraints.maxHeight * 0.6,
+                  child: Image.asset(
+                    'assets/images/waiting.png',
+                    fit: BoxFit.cover,
+                  ),
+                  padding: const EdgeInsets.only(top: 20),
+                ),
+              ],
+            );
+          });
   }
 }
