@@ -6,16 +6,6 @@ import './widgets/transaction_list.dart';
 import './models/transaction.dart';
 import './widgets/chart.dart';
 
-// void main() {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   SystemChrome.setPreferredOrientations(
-//     [
-//       DeviceOrientation.portraitUp,
-//       DeviceOrientation.portraitDown,
-//     ],
-//   ).then((_) => runApp(const MyApp()));
-// }
-
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -58,20 +48,7 @@ class ExpenseApp extends StatefulWidget {
 }
 
 class _ExpenseAppState extends State<ExpenseApp> {
-  final List<Transaction> _userTransactions = [
-    // Transaction(
-    //   id: 't1',
-    //   title: 'My shoe',
-    //   amount: 69.99,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't2',
-    //   title: 'My pc',
-    //   amount: 1600.00,
-    //   date: DateTime.now(),
-    // ),
-  ];
+  final List<Transaction> _userTransactions = [];
 
   bool _showChart = false;
 
@@ -119,6 +96,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
 
@@ -135,9 +113,9 @@ class _ExpenseAppState extends State<ExpenseApp> {
     );
 
     final txListWidget = SizedBox(
-      height: (MediaQuery.of(context).size.height -
+      height: (mediaQuery.size.height -
               appBar.preferredSize.height -
-              MediaQuery.of(context).padding.top) *
+              mediaQuery.padding.top) *
           0.7,
       child: TransactionList(
         userTransactions: _userTransactions,
@@ -155,7 +133,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Show Chart'),
+                  const Text('Show Chart'),
                   Switch(
                     value: _showChart,
                     onChanged: (val) {
@@ -169,9 +147,9 @@ class _ExpenseAppState extends State<ExpenseApp> {
               ),
             if (!isLandscape)
               SizedBox(
-                height: (MediaQuery.of(context).size.height -
+                height: (mediaQuery.size.height -
                         appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
+                        mediaQuery.padding.top) *
                     0.3,
                 child: Chart(
                   recentTransactions: _recentTransactions,
@@ -181,9 +159,9 @@ class _ExpenseAppState extends State<ExpenseApp> {
             if (isLandscape)
               _showChart
                   ? SizedBox(
-                      height: (MediaQuery.of(context).size.height -
+                      height: (mediaQuery.size.height -
                               appBar.preferredSize.height -
-                              MediaQuery.of(context).padding.top) *
+                              mediaQuery.padding.top) *
                           0.7,
                       child: Chart(
                         recentTransactions: _recentTransactions,
