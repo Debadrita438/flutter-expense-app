@@ -49,10 +49,27 @@ class ExpenseApp extends StatefulWidget {
   State<ExpenseApp> createState() => _ExpenseAppState();
 }
 
-class _ExpenseAppState extends State<ExpenseApp> {
+class _ExpenseAppState extends State<ExpenseApp> with WidgetsBindingObserver {
   final List<Transaction> _userTransactions = [];
 
   bool _showChart = false;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance?.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
